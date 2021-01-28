@@ -1,7 +1,7 @@
 # testepraticoADM
 Teste Pratico para Policia Civil MT 
 
-<AS ETAPAS RESOLVIDAS 1,2 e 3 ESTÃO ARMAZENADAS NO BRAINCH MASTER>
+<AS ETAPAS RESOLVIDAS 1,2 e 3 ESTÃO ARMAZENADAS NO BRANCHE MASTER>
 
 
 Nome: Giovane Francis Gottardo

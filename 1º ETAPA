@@ -1,0 +1,45 @@
+1º ETAPA
+
+1- Instalando Docker compose: docker-compose up -d
+   Permissões ao binário: sudo chmod +x /usr/local/bin/docker-compose
+
+	Criando as imagens dos containers 
+	POSTGRES: docker pull postgres
+	PGADMIN4: docker pull dpage/pgadmin4
+	MINIO SERVER: docker pull store/minio/minio:RELEASE.2020-12-29T23-29-29Z	
+	
+2- 	IP VALIDO: 192.168.0.0/24
+	Obter ID do container: docker ps
+	Inspecionar container: docker inspect <container ID>
+	Identificar IP do container: docker inspect <container id> | grep "IPAddress"
+
+3- Permitindo acesso ao banco de dados:
+	docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d -p 5432:5432 postgres
+	
+4- Acessar o bash do container para liberações:
+	docker container run -d --volumes-from dbdata --name db2 postgres
+
+	Permissões: 
+	psql -h localhost -U postgres -d postgres
+	
+	
+5- CREATE DATABASE IF NOT EXISTS dbPolicia;
+
+6- 	Instalar MINIOSERV(Homebrew):Substituir /data pelo caminho para a unidade ou diretório no qual deseja que o MinIO armazene dados.
+
+	INSTALL MINIOSERV: 
+	debrew install minio/stable/minio
+	minio server /data
+	
+	docker-compose.exe pull
+	docker-compose.exe up
+	
+	INSTALL MC:
+	brew install minio/stable/mc
+	mc --help
+	
+	
+	Para executar o backup se faz necessário existir os pré-requistoss MC e o Minio instalados.
+	Criando BKP:
+	mc mb m1/pgsql-bkp
+	Bucket created successfully ‘m1/pgsql-bkp’.

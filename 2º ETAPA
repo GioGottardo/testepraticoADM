@@ -1,0 +1,408 @@
+2º ETAPA 	
+	
+1- CREATE DATABASE IF NOT EXISTS conveniencia;
+
+	CREATE TABLE  estilo (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	nome VARCHAR(50)
+	);
+	
+	CREATE TABLE cerveja (
+	codigo BIGINT NOT NULL PRIMARY KEY,
+	sku VARCHAR(50),
+	nome VARCHAR(80),
+	descricao TEXT,
+	valor DECIMAL(10,2),
+	teor_alcoolico DECIMAL(10,2),
+	comissao DECIMAL(10,2),
+	sabor VARCHAR(50),
+	origem VARCHAR(50),
+	quantidade_estoque INT NOT NULL,
+	foto VARCHAR(100),
+	content_type VARCHAR(100),
+	codigo_estilo BIGINT,
+	CONSTRAINT FK_Cerveja_Estilo FOREIGN KEY (codigo_estilo) REFERENCES estilo (codigo)
+	);
+	
+	CREATE TABLE  estado (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	nome VARCHAR(50),
+	sigla VARCHAR(2)
+	);
+	
+	CREATE TABLE cidade (
+	codigo BIGINT NOT NULL ,
+	nome VARCHAR(80),
+	codigo_estado BIGINT NOT NULL,
+	CONSTRAINT FK_Cidade_Estado FOREIGN KEY (codigo_estado) REFERENCES estado (codigo)
+	);
+	
+	CREATE TABLE  cliente (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	nome VARCHAR(80),
+	tipo_pessoa VARCHAR(15),
+	cpf_cnpj VARCHAR (30),
+	telefone VARCHAR ,
+	email VARCHAR(50),
+	logradouro VARCHAR(50),
+	numero VARCHAR(15),
+	complemento VARCHAR,
+	cep VARCHAR(15),
+	codigo_cidade BIGINT NOT NULL
+	);
+	
+	CREATE TABLE permissao (
+	codigo BIGINT NOT NULL PRIMARY KEY , 
+	nome VARCHAR (50)
+	);
+	
+	CREATE TABLE grupo (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	nome VARCHAR (50)
+	);
+	
+	
+	CREATE TABLE grupo_permissao (
+	codigo_grupo BIGINT NOT NULL , 
+	codigo_permissao BIGINT NOT NULL , 
+	CONSTRAINT FK_Grupo_permissao FOREIGN KEY (codigo_grupo) REFERENCES grupo (codigo),
+	CONSTRAINT FK_Permissao FOREIGN KEY (codigo_permissao) REFERENCES permissao (codigo)
+	);
+	
+	CREATE TABLE usuario (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	nome VARCHAR(50),
+	email VARCHAR(50),
+	senha VARCHAR(120),
+	ativo SMALLINT,
+	data_nascimento DATE
+	);
+	
+	CREATE TABLE usuario_grupo (
+	codigo_usuario BIGINT NOT NULL , 
+	codigo_grupo BIGINT NOT NULL ,
+	CONSTRAINT FK_Cod_Usuario FOREIGN KEY (codigo_usuario) REFERENCES usuario (codigo),
+	CONSTRAINT FK_Cod_Grupo FOREIGN KEY (codigo_grupo) REFERENCES grupo (codigo)
+	);
+	
+	
+	CREATE TABLE venda (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	data_criacao TIMESTAMP,
+	valor_frete DECIMAL(10,2),
+	valor_desconto DECIMAL(10,2),
+	valor_total DECIMAL(10,2),
+	status VARCHAR(30),
+	observacao VARCHAR(200),
+	data_hora_entrega TIMESTAMP,
+	codigo_cliente BIGINT NOT NULL, 
+	codigo_usuario BIGINT NOT NULL,
+	CONSTRAINT FK_Cod_Cliente FOREIGN KEY (codigo_cliente) REFERENCES cliente (codigo),
+	CONSTRAINT FK_Cod_Usuario FOREIGN KEY (codigo_usuario) REFERENCES usuario (codigo)
+	);
+	
+	CREATE TABLE item_venda (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	quantidade INT NOT NULL,
+	valor_unitario DECIMAL(10,2),
+	codigo_cerveja BIGINT NOT NULL, 
+	codigo_venda BIGINT NOT NULL, 
+	CONSTRAINT FK_Cod_Cerveja FOREIGN KEY (codigo_cerveja) REFERENCES cerveja (codigo),
+	CONSTRAINT FK_Cod_Venda FOREIGN KEY (codigo_venda) REFERENCES venda (codigo)
+	);
+
+	
+	CREATE TABLE schema_version (
+	installed_rank INT PRIMARY KEY ,
+	version VARCHAR(50),
+	description VARCHAR(200),
+	type VARCHAR(50),
+	script VARCHAR(1000),
+	chacksum INT NOT NULL,
+	installed_by VARCHAR(100),
+	installed_on TIMESTAMP,
+	execution_time INT NOT NULL,
+	sucess SMALLINT
+	);
+	
+
+1- CRIANDO DATABASE:
+ CREATE DATABASE IF NOT EXISTS conveniencia;
+
+2-  CRIANDO TABELAS RELACIONAIS:
+TABLE estilo
+	INSERT INTO estilo (codigo, nome)
+	VALUES ('1', 'Estilo 1'),
+	 ('2', 'Estilo 2'),
+	 ('3', 'Estilo 3');
+	
+TABLE CERVEJA
+	INSERT INTO cerveja (codigo, sku, nome, descricao, valor, teor_alcoolico,comissao,sabor,origem, codigo_estilo, quantidade_estoque,foto,content_type)
+	VALUES ('1', '1', 'Joao', 'Joao da rua 1', 12,00 , 15, 5, 'Trigo', '1', 110, 'Foto Joao', 'Type1'),
+	('2', '2', 'Maria', 'Maria da rua 2', 13,00 , 13, 2, 'Limao', '2', 100, 'Foto Maria', 'Type2'),
+	('3', '3', 'Tiago', 'Tiago da rua 3', 17,00 , 12, 3, 'Cafe', '3', 120, 'Foto Tiago', 'Type3');
+	
+	
+TABLE estado 
+	INSERT INTO estado (codigo, nome,sigla)
+	VALUES ('1', 'Sao Paulo','SP'),
+	('2', 'Parana','PR'),
+	('3', 'Rio de Janeiro','RJ');	
+	
+	
+TABLE cidade 
+	INSERT INTO cidade (codigo, nome,codigo_estado)
+	VALUES ('1', 'Araras','1'),
+	('2', 'Aratiba','2'),		
+	('3', 'Araraquara','3');	
+	
+		
+TABLE cliente 
+	INSERT INTO cliente (codigo, nome,tipo_pessoa,cpf_cnpj,telefone,email,logradouro,numero,complemento,cep,codigo_cidade)
+	VALUES ('1', 'Cliente 1', 'fisica', 'CPF', '1111-1111','cliente@gmail.com',' Avenida 1','101','casa','85884000','1'),	
+	('2', 'Cliente 2', 'fisica', 'CPF', '2222-2222','cliente2@gmail.com',' Avenida 2','102','casa','85884000','2'),
+	('3', 'Cliente 3', 'fisica', 'CPF', '3333-3333','cliente3@gmail.com',' Avenida 3','103','casa','85884000','3');
+	
+TABLE permissao
+	INSERT INTO permissao (codigo,nome)
+	VALUES ('1','Permissao 1'),	
+	('2','Permissao 2'),	
+	('3','Permissao 3');
+	
+TABLE grupo
+	INSERT INTO grupo (codigo,nome)
+	VALUES ('1','Grupo 1'),	
+	('2','Grupo 2'),	
+	('3','Grupo 3');	
+	
+TABLE grupo_permissao
+	INSERT INTO grupo_permissao (codigo_grupo,codigo_permissao)
+	VALUES ('1','1'),	
+	('2','2'),	
+	('3','3');
+		
+TABLE usuario 
+	INSERT INTO usuario (codigo, nome,email,senha,ativo,data_nascimento)
+	VALUES ('1', 'User1', 'user1@gmail.com','123', '1','01-01-1980'),
+	('2', 'User2', 'user2@gmail.com','123', '1','01-01-1982'),
+	('3', 'User3', 'user3@gmail.com','123', '1','01-01-1981');
+	
+TABLE usuario_grupo
+	INSERT INTO usuario_grupo (codigo_usuario,codigo_grupo)
+	VALUES ('1','1'),
+	('2','2'),
+	('3','3');
+	
+TABLE venda 
+	INSERT INTO venda (codigo, data_criacao,valor_frete,valor_desconto,valor_total,status,observacao,data_hora_entrega,codigo_cliente,codigo_usuario)
+	VALUES ('1', '2000-01-01', 20.00 , 0, 20.00,'ativo',' Obs 1','2000-01-01','1','1'),
+	('2', '2000-01-01', 10.00 , 0, 10.00,'ativo',' Obs 2','2000-01-01','2','2'),
+	('3', '2000-01-01', 30.00 , 0, 30.00,'ativo',' Obs 3','2000-01-01','3','3');
+		
+TABLE ITEM VENDA	
+	INSERT INTO item_venda (codigo, quantidade, valor_unitario, codigo_cerveja, codigo_venda)
+	VALUES ('1', 2, 12,	'1', '1'),
+	('2', 3, 13,	'2', '2'),
+	('3', 4, 16,	'3', '3');		
+	
+TABLE schema_version 
+	INSERT INTO schema_version (installed_rank, version,description,type,script,chacksum,installed_by,installed_on,execution_time,sucess)
+	VALUES ('1', '1.0','Versao 1','type 1','script1','1','Remote','01-01-2001','1','1'),
+	('2', '2.0','Versao 2','type 2','script2','1','Remote2','01-01-2001','1','1'),
+	('3', '3.0','Versao 2','type 3','script3','1','Remote3','01-01-2001','1','1');
+	
+	
+3- CRIANDO A TRIGGER: 
+
+CREATE TYPE dml_type AS ENUM ('INSERT', 'UPDATE', 'DELETE')
+
+CREATE TABLE venda_auditoria (
+	codigo BIGINT NOT NULL PRIMARY KEY ,
+	data_criacao TIMESTAMP,
+	valor_frete DECIMAL(10,2),
+	valor_desconto DECIMAL(10,2),
+	valor_total DECIMAL(10,2),
+	status VARCHAR(30),
+	observacao VARCHAR(200),
+	data_hora_entrega TIMESTAMP,
+	codigo_cliente BIGINT NOT NULL, 
+	codigo_usuario BIGINT NOT NULL,
+	data_alteracao TIMESTAMP,
+	dml_type dml_type NOT NULL
+	);
+
+CREATE OR REPLACE FUNCTION vendas_audit_trigger_func()
+RETURNS trigger AS $body$
+BEGIN
+   if (TG_OP = 'INSERT') then
+       INSERT INTO venda_auditoria (
+        codigo,
+		data_criacao,
+		valor_frete,
+		valor_desconto,
+		valor_total,
+		status,
+		observacao,
+		data_hora_entrega,
+		codigo_cliente, 
+		codigo_usuario,
+		data_alteracao,
+		dml_type
+	)
+       VALUES(
+           NEW.codigo,
+           CURRENT_TIMESTAMP,
+           valor_frete(NEW),
+		   valor_desconto(NEW),
+			valor_total(NEW),
+			status(NEW),
+			observacao(NEW),
+			data_hora_entrega(NEW),
+			codigo_cliente(NEW), 
+			codigo_usuario(NEW),
+           CURRENT_TIMESTAMP,
+           current_setting('var.logged_user'),
+		   'INSERT'
+       );
+             
+       RETURN NEW;
+   elsif (TG_OP = 'UPDATE') then
+       INSERT INTO venda_auditoria (
+            codigo,
+			data_criacao,
+			valor_frete,
+			valor_desconto,
+			valor_total,
+			status,
+			observacao,
+			data_hora_entrega,
+			codigo_cliente, 
+			codigo_usuario,
+			data_alteracao,
+			dml_type
+       )
+       VALUES(
+           NEW.codigo,
+           CURRENT_TIMESTAMP,
+           valor_frete(NEW),
+		   valor_desconto(NEW),
+			valor_total(NEW),
+			status(NEW),
+			observacao(NEW),
+			data_hora_entrega(NEW),
+			codigo_cliente(NEW), 
+			codigo_usuario(NEW),
+           CURRENT_TIMESTAMP,
+           current_setting('var.logged_user'),
+		   'UPDATE'
+       );
+             
+       RETURN NEW;
+   elsif (TG_OP = 'DELETE') then
+       INSERT INTO venda_auditoria (
+           codigo,
+			data_criacao,
+			valor_frete,
+			valor_desconto,
+			valor_total,
+			status,
+			observacao,
+			data_hora_entrega,
+			codigo_cliente, 
+			codigo_usuario,
+			data_alteracao,
+			dml_type
+       )
+       VALUES(
+           OLD.codigo,
+           CURRENT_TIMESTAMP,
+           valor_frete(OLD),
+		   valor_desconto(OLD),
+			valor_total(OLD),
+			status(OLD),
+			observacao(OLD),
+			data_hora_entrega(OLD),
+			codigo_cliente(OLD), 
+			codigo_usuario(OLD),
+           CURRENT_TIMESTAMP,
+           current_setting('var.logged_user')
+		   'DELETE'
+       );
+        
+       RETURN OLD;
+   end if;
+     
+END;
+$body$
+LANGUAGE plpgsql	
+	
+CREATE TRIGGER vendas_auditoria
+AFTER INSERT OR UPDATE OR DELETE ON venda_auditoria
+FOR EACH ROW EXECUTE FUNCTION vendas_audit_trigger_func()	
+	
+
+4- CRIANDO VIEWS MATERIALIZADAS
+
+CREATE MATERIALIZED VIEW view_cli AS
+SELECT
+	cli.nome AS Nome_cli,
+	es.nome AS Nome_estilo
+FROM venda v
+inner join item_venda iv on iv.codigo_venda = v.codigo
+inner join cerveja ce on ce.codigo = iv.codigo_cerveja
+inner join estilo es on es.codigo = ce.codigo_estilo
+inner join cliente cli on cli.codigo = v.codigo_cliente
+
+5- Criando INDICES
+
+CREATE INDEX idx_venda_total
+ON venda(valor_total);
+
+CREATE INDEX idx_cliente_telefone
+ON cliente(telefone);
+
+CREATE INDEX idx_usuarios_ativos
+ON usuario(ativo);
+
+6- CRIANDO NOVO USUARIO
+CREATE USER usr_relatorio WITH PASSWORD '12345';
+
+7- PERMISSOES DE USUARIO
+REVOKE ALL PRIVILEGES ON DATABASE conveniencia FROM usr_relatorio;
+
+8- PERMISSOES DE ACESSO AO USUARIO:
+CREATE ROLE perm_usr;
+
+GRANT CONNECT ON DATABASE conveniencia TO perm_usr;
+
+GRANT USAGE ON SCHEMA public TO perm_usr;
+
+GRANT SELECT ON TABLE venda_auditoria TO perm_usr;
+
+GRANT SELECT ON TABLE view_cli TO perm_usr;
+
+
+9- LISTAR CERVEJAS: 
+SELECT
+	ce.nome,
+	(case when iv.quantidade is null then 0 else iv.quantidade end) as quantidade
+FROM cerveja ce
+left join item_venda iv on ce.codigo = iv.codigo_cerveja
+order by iv.quantidade
+
+10- QUANTIDADE VENDAS:
+SELECT
+	u.nome AS NOME_USUARIO,
+	extract(year from ve.data_hora_entrega) AS ANO_VENDA,
+	extract(month from ve.data_hora_entrega)AS MES_VENDA,
+	iv.quantidade AS QUANTIDADE
+FROM usuario u
+inner join venda ve on ve.codigo_usuario = u.codigo
+inner join item_venda iv on iv.codigo_venda = ve.codigo
+
+11- VALOR TOTAL USUARIO:
+SELECT
+	sum(v.valor_total) AS Valor_total 
+FROM venda v
+inner join item_venda iv on iv.codigo_venda = v.codigo
+where v.codigo_usuario = 1

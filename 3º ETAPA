@@ -1,0 +1,13 @@
+3º ETAPA
+
+As diversas soluções Open Sources criadas para facilitar as vidas de seus usuários, tem sido de grande valia aos meios da tecnologia de informação nos ultimos anos.
+Muitos aplicativos, sis˜temas de gerenciamento, modelos e simuladores foram criados para promover e melhorar o desempenho das máquinas seja elas físicas ou virtuais.
+A manipulação dos dados e o gerenciamento de banco de dados com seus diversos recursos disponiveis, variam de acordo com cada linguagem ou 
+programação desenvolvida. Os relacionamentos desses bancos podem ser divididos em SQL e NOSQL: 
+Os bancos SQL utilizam de uma linguagem de consulta a banco de dados relacionais, já os bancos NOSQL para banco de dados não relacionais de alto desempenho.
+São exemplos de banco de dados NOSQL: Aerospike,Apache Cassandra, Amazon DynamoDB, e exemplos de banco de dados SQL: Postgres, Oracle, SQLServer.
+A velocidade da disponibilização das informações são essenciais para as tomadas de decisões do DBA- Database Administrator.
+O desempenho dos bancos NOSQL podem trazer melhores desempenhos por exemplo para um servidor com grande quantidade de dados. 
+Algumas ferramentas podem ser usadas para executar uma migração rápida de um banco de dados individual usando uma ferramenta baseada na interface do usuário,
+enquanto outras podem migrar vários bancos de dados que podem ser automatizados para lidar com as migrações em escala. 
+Os principais modelos de migração de dados são:AMD (Assistente de Migração de Dados) e DMS (Serviço de Migração de Banco de Dados do Azure).
